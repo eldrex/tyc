@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">tyc</string>
+    <string name="action_import">Importovať slovíčka</string>
+    <string name="intent_chooser">Vyberte aplikáciu</string>
+    <string name="e_cannot_read_csv">Csv súbor sa nedá prečítať</string>
+    <string name="btn_next">Ďalej</string>
+</resources>
