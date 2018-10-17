@@ -1,8 +1,10 @@
-package com.vdroid.tyc;
+package com.vdroid.tyc.ui.activities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
+
+import com.vdroid.tyc.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

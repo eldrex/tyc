@@ -1,7 +1,8 @@
-package com.vdroid.tyc.ui.main;
+package com.vdroid.tyc.ui.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vdroid.tyc.R;
-import com.vdroid.tyc.ResultActivity;
+import com.vdroid.tyc.model.MainViewModel;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -42,6 +43,7 @@ public class MainFragment extends Fragment {
     private CsvContainer mCsvContainer;
     private int mIndex = 0;
     private int mCountOfCorrectAnswers = 0;
+    private Uri mCsvUri;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -61,17 +63,26 @@ public class MainFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        loadCsv();
         // TODO: Use the ViewModel
     }
 
-    public void setCsv(InputStream csvStream) {
-        // anglicke_slovo;moznost_1;moznost_2;moznost_3;moznost_4;index_spravnej_odpovede;
-        final CsvReader csvReader = new CsvReader();
-        csvReader.setContainsHeader(false);
-        csvReader.setFieldSeparator(';');
-        //csvReader.setTextDelimiter('\'');
-        InputStreamReader sr = new InputStreamReader(csvStream);
+    public void setCsvUri(Uri csvUri) {
+        mCsvUri = csvUri;
+    }
+
+    public void loadCsv() {
         try {
+
+            // anglicke_slovo;moznost_1;moznost_2;moznost_3;moznost_4;index_spravnej_odpovede;
+            final CsvReader csvReader = new CsvReader();
+            csvReader.setContainsHeader(false);
+            csvReader.setFieldSeparator(';');
+            //csvReader.setTextDelimiter('\'');
+
+            InputStream csvStream = getContext().getContentResolver().openInputStream(mCsvUri);
+            InputStreamReader sr = new InputStreamReader(csvStream);
+
             mCsvContainer = csvReader.read(sr);
             if (mCsvContainer.getRowCount() == 0) {
                 throw new Exception("No entries found in csv");

@@ -1,4 +1,4 @@
-package com.vdroid.tyc.ui.main;
+package com.vdroid.tyc.model;
 
 import android.arch.lifecycle.ViewModel;
 

@@ -4,4 +4,6 @@
     <string name="intent_chooser">Vyberte aplikáciu</string>
     <string name="e_cannot_read_csv">Csv súbor sa nedá prečítať</string>
     <string name="btn_next">Ďalej</string>
+    <string name="title_activity_course_list">Výber kurzu</string>
+    <string name="action_settings">Settings</string>
 </resources>
