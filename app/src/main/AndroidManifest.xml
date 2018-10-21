@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.activities.CourseListActivity"
             android:label="@string/title_activity_course_list"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,10 +25,13 @@
         </activity>
         <activity
             android:name=".ui.activities.MainActivity"
-            android:parentActivityName=".ui.activities.CourseListActivity" />
+            android:parentActivityName=".ui.activities.CourseListActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ui.activities.ResultActivity"
-            android:parentActivityName=".ui.activities.MainActivity" />
+            android:parentActivityName=".ui.activities.MainActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

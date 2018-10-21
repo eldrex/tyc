@@ -2,7 +2,9 @@ package com.vdroid.tyc.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         if (savedInstanceState == null) {
             mFragment = MainFragment.newInstance();
@@ -50,4 +56,18 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setMessage(R.string.dialog_cancel_course);
+        builder.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+            super.onBackPressed();
+        });
+        builder.setNegativeButton(android.R.string.no, (dialog, which) -> {
+
+        });
+
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }

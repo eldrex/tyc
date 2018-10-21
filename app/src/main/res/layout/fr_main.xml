@@ -71,6 +71,17 @@
         app:layout_constraintTop_toBottomOf="@+id/btn_option_3"
         style="@style/option_button_style" />
 
+    <TextView
+        android:id="@+id/tv_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_16"
+        android:textSize="@dimen/score_text_size"
+        tools:text="6/10"
+        app:layout_constraintTop_toBottomOf="@id/btn_option_4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
@@ -80,5 +91,6 @@
         android:text="@string/btn_next"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
 </android.support.constraint.ConstraintLayout>

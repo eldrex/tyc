@@ -15,10 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.vdroid.tyc.R;
+import com.vdroid.tyc.model.CsvSource;
 import com.vdroid.tyc.model.MainViewModel;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 
 import butterknife.BindView;
@@ -26,7 +25,6 @@ import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.siegmar.fastcsv.reader.CsvContainer;
-import de.siegmar.fastcsv.reader.CsvReader;
 import de.siegmar.fastcsv.reader.CsvRow;
 
 public class MainFragment extends Fragment {
@@ -39,10 +37,13 @@ public class MainFragment extends Fragment {
     TextView tvQuestionWord;
     @BindViews({R.id.btn_option_1, R.id.btn_option_2, R.id.btn_option_3, R.id.btn_option_4})
     List<Button> btnOptions;
+    @BindView(R.id.tv_score)
+    TextView tvScore;
 
     private CsvContainer mCsvContainer;
     private int mIndex = 0;
     private int mCountOfCorrectAnswers = 0;
+    private boolean mAnswerChecked = false;
     private Uri mCsvUri;
 
     public static MainFragment newInstance() {
@@ -55,6 +56,7 @@ public class MainFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fr_main, container, false);
         ButterKnife.bind(this, view);
+
         hideOptionButtons();
         return view;
     }
@@ -73,22 +75,14 @@ public class MainFragment extends Fragment {
 
     public void loadCsv() {
         try {
-
-            // anglicke_slovo;moznost_1;moznost_2;moznost_3;moznost_4;index_spravnej_odpovede;
-            final CsvReader csvReader = new CsvReader();
-            csvReader.setContainsHeader(false);
-            csvReader.setFieldSeparator(';');
-            //csvReader.setTextDelimiter('\'');
-
-            InputStream csvStream = getContext().getContentResolver().openInputStream(mCsvUri);
-            InputStreamReader sr = new InputStreamReader(csvStream);
-
-            mCsvContainer = csvReader.read(sr);
+            mCsvContainer = CsvSource.load(getContext(), mCsvUri);
             if (mCsvContainer.getRowCount() == 0) {
                 throw new Exception("No entries found in csv");
             }
             showOptionButtons();
             onNewWord(mCsvContainer.getRow(mIndex));
+
+            tvScore.setText("1/" + mCsvContainer.getRowCount());
         } catch (Exception ex) {
             Toast.makeText(getContext(), getString(R.string.e_cannot_read_csv), Toast.LENGTH_LONG).show();
         }
@@ -96,6 +90,7 @@ public class MainFragment extends Fragment {
 
     public void onNewWord(CsvRow row) {
 
+        mAnswerChecked = false;
         tvQuestionWord.setText(row.getField(0));
 
         for (int i = 0; i < btnOptions.size(); i++) {
@@ -103,12 +98,14 @@ public class MainFragment extends Fragment {
             btn.setBackgroundColor(getResources().getColor(R.color.default_option_button));
             btn.setText(row.getField(i + 1));
         }
-
     }
 
     @OnClick({R.id.btn_option_1, R.id.btn_option_2, R.id.btn_option_3, R.id.btn_option_4})
     public void onOptionsClick(Button button) {
 
+        if (mAnswerChecked) {
+            return;
+        }
         int correctAnswerIndex = Integer.parseInt(mCsvContainer.getRow(mIndex).getField(5));
 
         if (Integer.parseInt(button.getTag().toString()) == correctAnswerIndex) {
@@ -120,11 +117,14 @@ public class MainFragment extends Fragment {
 
         // vyznacenie spravnej odpovede
         btnOptions.get(correctAnswerIndex - 1).setBackgroundColor(getResources().getColor(R.color.correct_option_button));
+        mAnswerChecked = true;
     }
 
     @OnClick({R.id.btn_next})
     public void onNextClick(Button button) {
-        // TODO check if option was selected
+        if (!mAnswerChecked) {
+            return;
+        }
 
         mIndex++;
         if (mCsvContainer.getRowCount() < mIndex + 1) {
@@ -134,6 +134,7 @@ public class MainFragment extends Fragment {
             startActivity(resultIntent);
             return;
         }
+        tvScore.setText(String.valueOf(mIndex + 1) + "/" + mCsvContainer.getRowCount());
 
         onNewWord(mCsvContainer.getRow(mIndex));
     }

@@ -6,4 +6,6 @@
     <string name="btn_next">Ďalej</string>
     <string name="title_activity_course_list">Výber kurzu</string>
     <string name="action_settings">Settings</string>
+    <string name="dialog_set_name_title">Nastavte názov</string>
+    <string name="dialog_cancel_course">Naozaj chcete skončiť testovanie?</string>
 </resources>
