@@ -17,6 +17,7 @@ import com.vdroid.tyc.ui.dialogs.EditDialog;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import de.siegmar.fastcsv.reader.CsvContainer;
 
 public class CourseListActivity extends AppCompatActivity {
 
@@ -51,10 +52,12 @@ public class CourseListActivity extends AppCompatActivity {
 
                 try {
                     // try to load
-                    CsvSource.load(this, data.getData());
+                    CsvContainer container = CsvSource.load(this, data.getData());
+                    CsvSource.checkFirstLine(container);
                 } catch (Exception ex) {
                     Log.e(LOG_TAG, "", ex);
                     Toast.makeText(this, getString(R.string.e_cannot_read_csv), Toast.LENGTH_LONG).show();
+                    return;
                 }
 
                 final CourseEntity entity = new CourseEntity();

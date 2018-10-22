@@ -14,6 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:textSize="24dp"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         tools:text="Ovocie" />
 

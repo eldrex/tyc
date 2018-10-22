@@ -27,6 +27,14 @@
         android:layout_height="wrap_content"
         tools:text="Výsledok 3/6"
         android:textSize="@dimen/score_text_size"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_marginTop="@dimen/margin_64" />
+
+    <RatingBar
+        android:id="@+id/rb_result"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:numStars="5"
         android:layout_gravity="center_vertical|center_horizontal" />
 
 </android.support.design.widget.CoordinatorLayout>

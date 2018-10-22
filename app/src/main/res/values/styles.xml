@@ -10,6 +10,9 @@
 
     <style name="option_button_style">
         <item name="android:background">@color/default_option_button</item>
+        <item name="android:minWidth">@dimen/button_min_width</item>
+        <item name="android:paddingStart">@dimen/margin_8</item>
+        <item name="android:paddingEnd">@dimen/margin_8</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

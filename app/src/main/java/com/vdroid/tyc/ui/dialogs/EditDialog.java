@@ -20,6 +20,7 @@ public class EditDialog {
                       OnSaveEditDialogClickListener positiveAction) {
 
         final EditText input = new EditText(context);
+        input.setMaxLines(1);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT);

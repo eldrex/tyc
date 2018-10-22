@@ -2,6 +2,7 @@ package com.vdroid.tyc.ui.activities;
 
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -45,6 +46,7 @@ public class MainFragment extends Fragment {
     private int mCountOfCorrectAnswers = 0;
     private boolean mAnswerChecked = false;
     private Uri mCsvUri;
+    MediaPlayer mediaPlayer;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -66,6 +68,7 @@ public class MainFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
         loadCsv();
+        mediaPlayer = MediaPlayer.create(getContext(), R.raw.success);
         // TODO: Use the ViewModel
     }
 
@@ -76,9 +79,7 @@ public class MainFragment extends Fragment {
     public void loadCsv() {
         try {
             mCsvContainer = CsvSource.load(getContext(), mCsvUri);
-            if (mCsvContainer.getRowCount() == 0) {
-                throw new Exception("No entries found in csv");
-            }
+
             showOptionButtons();
             onNewWord(mCsvContainer.getRow(mIndex));
 
@@ -110,6 +111,7 @@ public class MainFragment extends Fragment {
 
         if (Integer.parseInt(button.getTag().toString()) == correctAnswerIndex) {
             mCountOfCorrectAnswers++;
+            mediaPlayer.start();
         } else {
             // ak vybrata odpoved nie je spravna
             button.setBackgroundColor(getResources().getColor(R.color.fail_option_button));
